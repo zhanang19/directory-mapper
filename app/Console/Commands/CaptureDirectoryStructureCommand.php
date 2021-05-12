@@ -15,12 +15,11 @@ class CaptureDirectoryStructureCommand extends Command
 
     public function handle()
     {
-        $path = database_path();
+        $path = $this->ask('');
 
         $scanResult = $this->scandir($path, $path);
 
         Cache::put('current_path', $scanResult);
-        dd(cache('current_path'));
     }
 
     protected function scandir($basePath, $parent)
@@ -32,12 +31,12 @@ class CaptureDirectoryStructureCommand extends Command
                 continue;
             }
 
-            $path = "{$parent}/{$dir}";
+            $path = $parent . DIRECTORY_SEPARATOR . $dir;
 
             if (is_dir($path)) {
                 $this->directories[] = $path;
 
-                $this->scandir("$path/", $path);
+                $this->scandir($path . DIRECTORY_SEPARATOR, $path);
             } else {
                 $this->files[] = [
                     'path' => $path,

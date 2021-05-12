@@ -32,7 +32,7 @@ class RestoreDirectoryStructureCommand extends Command
                 continue;
             }
 
-            $currentDir = "{$path}/{$item}/";
+            $currentDir = $path . DIRECTORY_SEPARATOR . $item . DIRECTORY_SEPARATOR;
 
             if (is_dir($currentDir)) {
                 foreach (scandir($currentDir) as $fileName) {
